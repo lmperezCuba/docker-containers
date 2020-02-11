@@ -1,0 +1,27 @@
+version: '3.7'
+# docker exec -it aicos-backend-nestjs_nodejs_1 /bin/bash
+services:
+    nodejs:
+        image: 192.168.120.133:81/library/node:13
+        container_name: aicos_backend
+        ports:
+            - "3000:3000"
+            #- "444:443"
+        tty: true
+        working_dir: /home/node/app
+        #environment:
+        #    - NODE_ENV=production
+        volumes:
+            - ./:/home/node/app
+            - .npmrc:/root/.npmrc      
+        # command: "yarn run start:dev"
+        networks:
+            - aicos_network
+            - postgres_network    
+            
+networks:
+    aicos_network:
+        name: aicos__network
+    postgres_network:
+        external:
+            name: postgres_network            

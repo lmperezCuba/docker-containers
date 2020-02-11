@@ -1,0 +1,42 @@
+version: '3.7'
+
+services:
+    postgres12:
+        image: 192.168.120.133:81/library/postgres:12.1
+        container_name: "postgres_12"
+        ports:
+            - "5432:5432"
+        tty: true
+        volumes:
+            - db-data:/var/lib/postgresql/data
+        networks:
+            - postgres_network
+        restart: always
+        environment:
+            - PGHOST=localhost
+            - PGDATABASE=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+    pgadmin:
+        container_name: pgadmin_4
+        image: 192.168.120.133:81/dpage/pgadmin4
+        environment:
+            PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-postgres}
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+        volumes:
+            - pgadmin:/root/.pgadmin
+        ports:
+            - "${PGADMIN_PORT:-5050}:80"
+        networks:
+            - postgres_network
+        depends_on:
+            - postgres12
+        restart: unless-stopped
+
+volumes:
+    db-data:
+        driver: local
+    pgadmin:
+networks:
+    postgres_network:    
+            driver: bridge   
