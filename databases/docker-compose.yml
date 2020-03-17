@@ -1,9 +1,14 @@
+# backup
+# docker exec -t your-db-container pg_dumpall -c -U postgres > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
+# restore
+# cat your_dump.sql | docker exec -i your-db-container psql -U postgres
+
 version: '3.7'
 
 services:
     postgres12:
-        image: 192.168.120.133:81/library/postgres:12.1
-        container_name: "postgres_12"
+        image: postgres:12.1
+        container_name: "postgres12"
         ports:
             - "5432:5432"
         tty: true
@@ -19,10 +24,10 @@ services:
             - POSTGRES_PASSWORD=postgres
     pgadmin:
         container_name: pgadmin_4
-        image: 192.168.120.133:81/dpage/pgadmin4
+        image: dpage/pgadmin4
         environment:
             PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-postgres}
-            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+            PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-luismanuelp1992@gmail.com}
         volumes:
             - pgadmin:/root/.pgadmin
         ports:
@@ -39,4 +44,4 @@ volumes:
     pgadmin:
 networks:
     postgres_network:    
-            driver: bridge   
+        driver: bridge   
