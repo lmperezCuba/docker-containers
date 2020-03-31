@@ -2,7 +2,9 @@
 # docker exec -t your-db-container pg_dumpall -c -U postgres > dump_`date +%d-%m-%Y"_"%H_%M_%S`.sql
 # restore
 # cat your_dump.sql | docker exec -i your-db-container psql -U postgres
-# docker exec my_postgres_1 pg_restore -U postgres -d some_database /backups/my_data.dump
+# restore from backup
+# docker cp .\aicos.backup postgres12:/aicos_backup
+# docker exec -i postgres12 pg_restore -U postgres -d aicos_default /aicos.backup
 
 version: '3.7'
 
