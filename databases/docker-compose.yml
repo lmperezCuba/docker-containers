@@ -47,6 +47,6 @@ volumes:
     pgadmin:
 networks:
     postgres_network:     
-        name: postgres_network 
+        name: postgres_network
     pgadmin_network:     
-        name: pgadmin_network 
+        name: pgadmin_network
