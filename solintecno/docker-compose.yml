@@ -1,0 +1,25 @@
+version: '3.7'
+# docker exec -it aicos-backend-nestjs_nodejs_1 /bin/bash
+services:
+    nats-solintecno:
+        image: nats:20.10.12
+        container_name: nats-solintecno
+        ports:
+            - "8222:8222"
+            - "4222:4222"
+        command: "--cluster_name NATS --cluster nats://0.0.0.0:6222 --http_port 8222 "
+        networks: [ "nats_solintecno_network" ]
+    nats-solintecno-1:
+        image: nats:20.10.12
+        command: "--cluster_name NATS --cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222"
+        networks: [ "nats_solintecno_network" ]
+        depends_on: [ "nats-solintecno" ]
+    nats-solintecno-2:
+        image: nats:20.10.12
+        command: "--cluster_name NATS --cluster nats://0.0.0.0:6222 --routes=nats://ruser:T0pS3cr3t@nats:6222"
+        networks: [ "nats_solintecno_network" ]
+        depends_on: [ "nats-solintecno" ]
+
+networks:
+    nats_solintecno_network:
+        name: nats_solintecno_network
