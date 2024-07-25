@@ -1,0 +1,10 @@
+services:
+
+ cockroachdb24:
+   image: cockroachdb/cockroach:v24.1.2
+   ports:
+     - "${COCKROACHDB_HOST_PORT:-26257}:26257"
+     - "${COCKROACHDB_GUI_HOST_PORT:-8080}:8080"
+   command: start-single-node --insecure
+   volumes:
+     - "${PWD}/cockroach-data/crdb:/cockroach/cockroach-data"
